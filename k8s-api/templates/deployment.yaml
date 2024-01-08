@@ -54,6 +54,34 @@ spec:
           volumeMounts:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+        {{- if .Values.loggingSidecarCreate }}
+        - name: fluent-bit-sidecar
+          image: "{{ .Values.loggingSidecarOption.image.repository }}:{{ .Values.loggingSidecarOption.image.tag }}"
+          imagePullPolicy: {{ .Values.loggingSidecarOption.image.pullPolicy }}
+          resources:
+            {{- toYaml .Values.loggingSidecarOption.resources | nindent 12 }}
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: POD_UID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.uid
+            - name: APP_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['app']
+        {{- end }}
       {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}
