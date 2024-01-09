@@ -117,3 +117,5 @@ loggingSidecarOption:
   volumeMounts:
   - name: fluent-bit-config
     mountPath: "/fluent-bit/etc"
+  - name: varlog
+    mountPath: "/var/log"
