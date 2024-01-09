@@ -82,6 +82,9 @@ autoscaling:
 volumes:
 - name: varlog
   emptyDir: {}
+- name: fluent-bit-config
+  configMap:
+    name: fluent-bit-configmap
 
 # Additional volumeMounts on the output Deployment definition.
 volumeMounts:
@@ -111,7 +114,6 @@ loggingSidecarOption:
     requests:
       cpu: 100m
       memory: 100Mi
-  volumes:
+  volumeMounts:
   - name: fluent-bit-config
-    configMap:
-      name: fluent-bit-configmap
+    mountPath: "/fluent-bit/etc"
