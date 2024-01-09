@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluent-bit-configmap
+data:
+  fluent-bit.conf: |
+    [SERVICE]
+        Flush        1
+        Daemon       Off
+        Log_Level    info
+        Parsers_File parsers.conf
+
+    [INPUT]
+        Name tail
+        Path /var/log/wl/*.log
+        Parser            argocd_parser
+        Tag               argocd_log
+        Refresh_Interval  10
+
+    [OUTPUT]
+        Name opensearch
+        Match *
+        Host vpc-test-x2irz3nhtbnckguelnrggfh674.ap-northeast-2.es.amazonaws.com/_dashboards
+        Port 443
+        Index test
+        Type test
+        AWS_Auth On
+        AWS_Region ap-northeast-2
+        tls On
+
+  parsers.conf: |
+    [PARSER]
+        Name   argocd_parser
+        Format regex
+        Regex  ^time="(?<time>[^"]+)"\slevel=(?<level>\w+)\smsg="(?<msg>[^"]+)"\sfile="(?<file>[^:]+):(?<line>\d+)"\srequestId=(?<requestId>[^\s]+)\s?$
+        Time_Key time
+        Time_Format %Y-%m-%dT%H:%M:%SZ

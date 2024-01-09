@@ -79,17 +79,14 @@ autoscaling:
   # targetMemoryUtilizationPercentage: 80
 
 # Additional volumes on the output Deployment definition.
-volumes: []
-# - name: foo
-#   secret:
-#     secretName: mysecret
-#     optional: false
+volumes:
+- name: varlog
+  emptyDir: {}
 
 # Additional volumeMounts on the output Deployment definition.
-volumeMounts: []
-# - name: foo
-#   mountPath: "/etc/foo"
-#   readOnly: true
+volumeMounts:
+- name: varlog
+  mountPath: "/var/log"
 
 nodeSelector: {}
 
@@ -104,7 +101,7 @@ loggingSidecarOption:
     tag: latest
     pullPolicy: IfNotPresent
   location:
-    directory: /opt/log
+    directory: /var/log/wl
     filename:
       applLog: k8s-api.log
   resources:
@@ -114,3 +111,7 @@ loggingSidecarOption:
     requests:
       cpu: 100m
       memory: 100Mi
+  volumes:
+  - name: fluent-bit-config
+    configMap:
+      name: fluent-bit-configmap
