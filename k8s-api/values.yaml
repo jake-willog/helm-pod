@@ -103,10 +103,6 @@ loggingSidecarOption:
     repository: fluent/fluent-bit
     tag: latest
     pullPolicy: IfNotPresent
-  location:
-    directory: /var/log
-    filename:
-      applLog: k8s-api.log
   resources:
     limits:
       cpu: 100m
