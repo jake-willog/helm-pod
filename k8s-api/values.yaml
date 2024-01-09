@@ -104,7 +104,7 @@ loggingSidecarOption:
     tag: latest
     pullPolicy: IfNotPresent
   location:
-    directory: /var/log/wl
+    directory: /var/log
     filename:
       applLog: k8s-api.log
   resources:
