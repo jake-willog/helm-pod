@@ -50,9 +50,9 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          envFrom:
-          - secretRef:
-              name: mysql-secret
+          # envFrom:
+          # - secretRef:
+          #     name: mysql-secret
           {{- with .Values.volumeMounts }}
           volumeMounts:
             {{- toYaml . | nindent 12 }}
