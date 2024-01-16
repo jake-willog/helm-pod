@@ -53,10 +53,10 @@ spec:
           {{- with .Values.volumeMounts }}
           volumeMounts:
             {{- toYaml . | nindent 12 }}
-          {{- end }}
           envFrom:
           - secretRef:
-              name: mysql-secert
+              name: mysql-secret
+          {{- end }}
         {{- if .Values.loggingSidecarCreate }}
         - name: fluent-bit
           image: "{{ .Values.loggingSidecarOption.image.repository }}:{{ .Values.loggingSidecarOption.image.tag }}"
