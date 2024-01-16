@@ -54,6 +54,9 @@ spec:
           volumeMounts:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          envFrom:
+          - secretRef:
+              name: test-aurora-mysql
         {{- if .Values.loggingSidecarCreate }}
         - name: fluent-bit
           image: "{{ .Values.loggingSidecarOption.image.repository }}:{{ .Values.loggingSidecarOption.image.tag }}"
