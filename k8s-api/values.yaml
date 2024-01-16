@@ -86,11 +86,20 @@ volumes:
 - name: fluent-bit-config
   configMap:
     name: fluent-bit-configmap
+- name: test-aurora-mysql-secrets
+  csi:
+    driver: secrets-store.csi.k8s.io
+    readOnly: true
+    volumeAttributes:
+      secretProviderClass: "test-aurora-mysql"
 
 # Additional volumeMounts on the output Deployment definition.
 volumeMounts:
 - name: varlog
   mountPath: "/var/log"
+- name: test-aurora-mysql-secrets
+  mountPath: "/mnt/secrets-store"
+  readOnly: true
 
 nodeSelector: {}
 
