@@ -54,12 +54,12 @@ spec:
           - name: SECRET_DB_NAME
             valueFrom:
               secretKeyRef:
-                name: mysql-secret
+                name: mysql
                 key: DBNAME
           - name: SECRET_DB_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: mysql-secret
+                name: mysql
                 key: DBPASSWORD
           {{- with .Values.volumeMounts }}
           volumeMounts:
